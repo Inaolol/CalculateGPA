@@ -14,7 +14,6 @@ import {
   calcGPA,
   computeRunningTotals,
   parseTranscriptHTML,
-  DEFAULT_DATA,
 } from "../utils/gradeData";
 import guideStep0 from "../assets/0.png";
 import guideStep1 from "../assets/1.jpg";
@@ -51,18 +50,6 @@ function emptyYear(label, startYear) {
       { id: uid(), kind: "spring", title: `Spring ${startYear + 1}`, courses: [] },
     ],
   };
-}
-
-function cloneWithFreshIds(years) {
-  return years.map((y) => ({
-    ...y,
-    id: uid(),
-    semesters: y.semesters.map((s) => ({
-      ...s,
-      id: uid(),
-      courses: s.courses.map((c) => ({ ...c, id: uid() })),
-    })),
-  }));
 }
 
 // ── Icons ───────────────────────────────────────────────────────
@@ -155,7 +142,7 @@ function TopBar({ onImport, onReset, theme, onToggleTheme, showActions }) {
 }
 
 // ── Empty state ─────────────────────────────────────────────────
-function EmptyState({ onImport, onAddFirstYear, onLoadSample }) {
+function EmptyState({ onImport, onAddFirstYear }) {
   return (
     <section className="empty">
       <div className="empty-inner">
@@ -183,25 +170,6 @@ function EmptyState({ onImport, onAddFirstYear, onLoadSample }) {
             <div className="empty-card-cta">New year →</div>
           </button>
 
-          <button className="empty-card subtle" onClick={onLoadSample}>
-            <div className="empty-card-icon">{I.sparkles}</div>
-            <div className="empty-card-title">Try sample curriculum</div>
-            <div className="empty-card-sub">
-              Pre-filled Software Engineering plan — explore the calculator first.
-            </div>
-            <div className="empty-card-cta">Load sample →</div>
-          </button>
-        </div>
-
-        <div className="empty-scale">
-          <div className="empty-scale-row">
-            {GRADE_SCALE.map((g) => (
-              <div key={g.letter} className="empty-scale-cell">
-                <span className={`grade-pill ${g.letter}`}>{g.letter}</span>
-                <span className="empty-scale-pts">{g.points.toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -664,26 +632,6 @@ function Year({ year, totalsMap, onUpdate, onDelete, onAddSemester }) {
   );
 }
 
-// ── Import modal ────────────────────────────────────────────────
-const SAMPLE_TRANSCRIPT = `<table>
-  <tr><th colspan="5">Fall 2022-2023</th></tr>
-  <tr><td>PHYS101</td><td>Physics I</td><td>7</td><td>Z</td><td>CC</td></tr>
-  <tr><td>MATH151</td><td>Differential and Integral Mathematics I</td><td>7</td><td>Z</td><td>CC</td></tr>
-  <tr><td>ENG100</td><td>Basic English</td><td>0</td><td>Z</td><td>AA</td></tr>
-  <tr><td>ENG101</td><td>Communication Skills and Academic Report Writing I</td><td>3</td><td>Z</td><td>CB</td></tr>
-  <tr><td>SWE111</td><td>Introduction to Software Engineering</td><td>6</td><td>Z</td><td>BB</td></tr>
-  <tr><td>IES100</td><td>Introduction to Engineering Sciences</td><td>2</td><td>Z</td><td>BA</td></tr>
-  <tr><td>SWE101</td><td>Computer Programming I</td><td>5</td><td>Z</td><td>FF</td></tr>
-  <tr><th colspan="5">Spring 2022-2023</th></tr>
-  <tr><td>MATH152</td><td>Differential and Integral Mathematics II</td><td>7</td><td>Z</td><td>BA</td></tr>
-  <tr><td>ENG102</td><td>Communication Skills and Academic Report Writing II</td><td>3</td><td>Z</td><td>BB</td></tr>
-  <tr><td>ESP102</td><td>Social Responsibility Project and Career Planning</td><td>2</td><td>Z</td><td>AA</td></tr>
-  <tr><td>SWE104</td><td>Data Structure and Algorithms</td><td>6</td><td>Z</td><td>CB</td></tr>
-  <tr><td>SWE102</td><td>Computer Programming II</td><td>5</td><td>Z</td><td>BB</td></tr>
-  <tr><td>PHYS102</td><td>Physics II</td><td>7</td><td>Z</td><td>AA</td></tr>
-  <tr><td>USD133</td><td>Data Driven Marketing and CRM</td><td>4</td><td>S</td><td>AA</td></tr>
-</table>`;
-
 const GUIDE_STEPS = [
   { title: "Navigate to Transcript inside your university website", img: guideStep0 },
   { title: "Right-click anywhere on the page and choose Inspect", img: guideStep1 },
@@ -841,10 +789,6 @@ function GpaCalculator() {
     setData([emptyYear("Year 1", yearStart)]);
   }, []);
 
-  const loadSample = useCallback(() => {
-    setData(cloneWithFreshIds(DEFAULT_DATA));
-  }, []);
-
   const resetAll = useCallback(() => {
     if (window.confirm("Clear all data and return to the welcome screen?")) {
       setData([]);
@@ -865,7 +809,6 @@ function GpaCalculator() {
         <EmptyState
           onImport={() => setImporting(true)}
           onAddFirstYear={startFromScratch}
-          onLoadSample={loadSample}
         />
       ) : (
         <>
