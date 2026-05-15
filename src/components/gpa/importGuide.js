@@ -2,7 +2,6 @@ import guideStep0 from "../../assets/0.png";
 import guideStep1 from "../../assets/1.jpg";
 import guideStep2 from "../../assets/2.jpg";
 import guideStep3 from "../../assets/3.jpg";
-import guideStep4 from "../../assets/4.jpg";
 
 export const IMPORT_GUIDE_STEPS = [
   {
@@ -22,7 +21,6 @@ export const IMPORT_GUIDE_STEPS = [
     img: guideStep3,
   },
   {
-    title: "Paste the content into the import box",
-    img: guideStep4,
+    title: "Paste the content here",
   },
 ];

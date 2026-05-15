@@ -42,7 +42,9 @@ function ImportModal({ onClose, onImport }) {
                   <span className="guide-step-num">{index + 1}</span>
                   <span>{step.title}</span>
                 </div>
-                <img src={step.img} alt={step.title} className="guide-step-img" />
+                {step.img && (
+                  <img src={step.img} alt={step.title} className="guide-step-img" />
+                )}
               </div>
             ))}
           </div>

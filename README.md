@@ -1,13 +1,8 @@
 # GPA Calculator
 
-Track courses by academic year and semester, enter letter grades and ECTS credits, and see semester and cumulative GPA.
+I built this project to automate GPA tracking. My university only shows a transcript on its website—already graded courses, no GPA calculator. For in-progress or future courses you have to work out semester and cumulative GPA yourself.
 
-## What it does
-
-- Add years with Fall and Spring semesters (Summer optional)
-- Add courses manually or import from university transcript HTML
-- Semester GPA, cumulative GPA, and credit totals
-- Light and dark theme
+The app takes the raw HTML from the transcript page (copy from the browser), parses it, and recalculates GPA as you add or change grades. I use it to try different grades on current courses and see what I need this semester to reach a target GPA, without doing the math by hand.
 
 ## Run locally
 

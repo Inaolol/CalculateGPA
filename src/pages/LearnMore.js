@@ -22,7 +22,7 @@ function LearnMore() {
         return (
           <div key={step.title} className="learnMoreSubContainer">
             <p>{step.title}</p>
-            <img src={step.img} alt={step.title} width={400} />
+            {step.img && <img src={step.img} alt={step.title} width={400} />}
 
             {!isLastItem && (
               <svg
