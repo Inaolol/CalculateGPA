@@ -1,5 +1,5 @@
-export const STORAGE_KEY = "altinbas_gpa_v1";
-export const THEME_STORAGE_KEY = "altinbas_theme";
+export const STORAGE_KEY = "gpa_v1";
+export const THEME_STORAGE_KEY = "theme";
 
 export function loadTranscriptData() {
   try {

@@ -82,19 +82,6 @@ function GpaCalculator() {
   const completedEcts = useMemo(() => sumUniqueCompletedEcts(allCourses), [allCourses]);
   const totalsMap = useMemo(() => computeRunningTotals(data), [data]);
 
-  const semesterSeries = useMemo(() => {
-    const series = [];
-
-    for (const year of data) {
-      for (const semester of year.semesters) {
-        const stat = calcGPA(semester.courses);
-        if (stat.count > 0) series.push({ title: semester.title, gpa: stat.gpa });
-      }
-    }
-
-    return series;
-  }, [data]);
-
   const distribution = useMemo(() => {
     const counts = {};
 
@@ -168,7 +155,6 @@ function GpaCalculator() {
             cgpa={overall.gpa}
             totalEcts={totalEcts}
             completedEcts={completedEcts}
-            semesterSeries={semesterSeries}
             distribution={distribution}
           />
 

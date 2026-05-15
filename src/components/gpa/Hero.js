@@ -11,7 +11,7 @@ const GRADE_COLORS = {
   FF: "var(--grade-ff)",
 };
 
-function Hero({ data, cgpa, totalEcts, completedEcts, semesterSeries, distribution }) {
+function Hero({ data, cgpa, totalEcts, completedEcts, distribution }) {
   const standing = standingFor(cgpa);
   const earnedCourses = data.reduce(
     (acc, year) =>
@@ -22,9 +22,6 @@ function Hero({ data, cgpa, totalEcts, completedEcts, semesterSeries, distributi
     0
   );
   const totalGraded = Object.values(distribution).reduce((acc, count) => acc + count, 0);
-  const latestSemester = semesterSeries[semesterSeries.length - 1];
-  const previousSemester = semesterSeries[semesterSeries.length - 2];
-  const semesterDelta = latestSemester && previousSemester ? latestSemester.gpa - previousSemester.gpa : null;
 
   return (
     <section className="hero">
@@ -43,43 +40,6 @@ function Hero({ data, cgpa, totalEcts, completedEcts, semesterSeries, distributi
           <span className="hero-cell-denominator">/ {totalEcts}</span>
         </div>
         <div className="hero-cell-note">ECTS - {earnedCourses} graded courses</div>
-      </div>
-
-      <div className="hero-cell">
-        <div className="hero-cell-label">Latest semester</div>
-        <div className="hero-cell-value small">{latestSemester ? latestSemester.gpa.toFixed(2) : "-"}</div>
-        <div className="hero-cell-note">
-          {latestSemester ? <strong>{latestSemester.title}</strong> : "no data yet"}
-        </div>
-      </div>
-
-      <div className="hero-cell">
-        <div className="hero-cell-label">Trend</div>
-        <div className="sparkline" title="GPA per semester">
-          {semesterSeries.map((semester, index) => {
-            const height = Math.max(8, (semester.gpa / 4) * 100);
-            const isLast = index === semesterSeries.length - 1;
-
-            return (
-              <div
-                key={`${semester.title}-${index}`}
-                className={`spark-bar${isLast ? " current" : ""}`}
-                style={{ height: `${height}%` }}
-                title={`${semester.title}: ${semester.gpa.toFixed(2)}`}
-              />
-            );
-          })}
-        </div>
-        <div className="hero-cell-note">
-          {semesterDelta !== null && (
-            <span>
-              <span className={semesterDelta > 0 ? "trend-up" : semesterDelta < 0 ? "trend-down" : ""}>
-                {semesterDelta > 0 ? "+" : semesterDelta < 0 ? "-" : "0"} {Math.abs(semesterDelta).toFixed(2)}
-              </span>
-              <span> vs previous</span>
-            </span>
-          )}
-        </div>
       </div>
 
       <div className="hero-cell">
