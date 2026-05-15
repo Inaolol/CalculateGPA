@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GPA Calculator logo</title>
+  <desc id="desc">A burgundy academic app icon with a transcript sheet, grade bars, and a 4.0 mark.</desc>
+  <rect width="512" height="512" rx="112" fill="#7a2738"/>
+  <path d="M116 110c0-21 17-38 38-38h204c21 0 38 17 38 38v292c0 21-17 38-38 38H154c-21 0-38-17-38-38V110z" fill="#fbfaf6"/>
+  <path d="M154 72h204c21 0 38 17 38 38v34H116v-34c0-21 17-38 38-38z" fill="#f1e0e3"/>
+  <path d="M168 194h126M168 238h176M168 282h96" fill="none" stroke="#b9b2a0" stroke-width="18" stroke-linecap="round"/>
+  <path d="M184 362v-34M238 362v-84M292 362v-132M346 362v-172" fill="none" stroke="#7a2738" stroke-width="24" stroke-linecap="round"/>
+  <path d="M166 374h196" fill="none" stroke="#d9d4c6" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="180" cy="108" r="11" fill="#7a2738" opacity=".9"/>
+  <circle cx="218" cy="108" r="11" fill="#7a2738" opacity=".72"/>
+  <circle cx="256" cy="108" r="11" fill="#7a2738" opacity=".54"/>
+  <path d="M286 156c0-18 15-33 33-33h38c18 0 33 15 33 33v42c0 18-15 33-33 33h-38c-18 0-33-15-33-33v-42z" fill="#7a2738"/>
+  <text x="338" y="191" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="43" fill="#fbfaf6">4.0</text>
+</svg>

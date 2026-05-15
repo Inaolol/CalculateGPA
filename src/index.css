@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap");
 
-/* ───────────────────────────────────────────────────────────
-   GPA Calculator — Altınbaş EWI Software Engineering
-   Modern academic, paper-warm light · deep ink dark
-   ─────────────────────────────────────────────────────────── */
 
 :root {
   --font-sans: "Geist", ui-sans-serif, -apple-system, "Helvetica Neue", sans-serif;
@@ -39,7 +35,6 @@
   --grade-cc: #8a6428;  --grade-cc-bg: #efe1c8;
   --grade-dc: #9a5a26;  --grade-dc-bg: #f0dac4;
   --grade-dd: #a2522a;  --grade-dd-bg: #f0d2bd;
-  --grade-fd: #8b2f2a;  --grade-fd-bg: #ecccc6;
   --grade-ff: #7a2424;  --grade-ff-bg: #e8c0bb;
 
   --radius-sm: 4px;
@@ -81,7 +76,6 @@
   --grade-cc: #d7b272;  --grade-cc-bg: #2e2415;
   --grade-dc: #d9a55d;  --grade-dc-bg: #2d1f12;
   --grade-dd: #d6924f;  --grade-dd-bg: #2c1c10;
-  --grade-fd: #d68479;  --grade-fd-bg: #2c1714;
   --grade-ff: #c97168;  --grade-ff-bg: #2b1311;
 
   --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.4);
@@ -141,11 +135,7 @@ input, textarea, select { font: inherit; color: inherit; }
 .brand-mark {
   width: 38px; height: 38px;
   border-radius: 9px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  display: grid; place-items: center;
-  font-family: var(--font-serif);
-  font-size: 22px; line-height: 1; letter-spacing: -0.02em;
+  display: block;
   box-shadow: var(--shadow-sm);
 }
 .brand-text { display: flex; flex-direction: column; gap: 1px; }
@@ -356,6 +346,14 @@ input, textarea, select { font: inherit; color: inherit; }
 .hero-cell-value.small { font-size: 36px; }
 .hero-cell-note { font-size: 12px; color: var(--ink-3); }
 .hero-cell-note strong { color: var(--ink-2); font-weight: 500; }
+.hero-cell-denominator {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink-3);
+  margin-left: 6px;
+}
+.trend-up { color: var(--grade-aa); }
+.trend-down { color: var(--grade-ff); }
 
 .standing {
   display: inline-flex; align-items: center; gap: 6px;
@@ -391,6 +389,11 @@ input, textarea, select { font: inherit; color: inherit; }
 }
 .distribution-legend span { display: inline-flex; align-items: center; gap: 5px; }
 .distribution-legend i { width: 7px; height: 7px; border-radius: 2px; display: inline-block; }
+.distribution-legend strong {
+  color: var(--ink-2);
+  font-weight: 600;
+  margin-left: 2px;
+}
 
 /* ── Year header ───────────────────────────────── */
 .year { margin-bottom: 40px; }
@@ -643,7 +646,7 @@ input, textarea, select { font: inherit; color: inherit; }
   cursor: pointer;
 }
 .grade-pill:hover { transform: translateY(-1px); }
-.grade-pill.empty { color: var(--ink-4); font-weight: 400; background: transparent; }
+.grade-pill.ungraded { color: var(--ink-4); font-weight: 400; background: transparent; }
 .grade-pill.AA { background: var(--grade-aa-bg); color: var(--grade-aa); border-color: color-mix(in oklab, var(--grade-aa) 20%, transparent); }
 .grade-pill.BA { background: var(--grade-ba-bg); color: var(--grade-ba); border-color: color-mix(in oklab, var(--grade-ba) 20%, transparent); }
 .grade-pill.BB { background: var(--grade-bb-bg); color: var(--grade-bb); border-color: color-mix(in oklab, var(--grade-bb) 20%, transparent); }
@@ -651,7 +654,6 @@ input, textarea, select { font: inherit; color: inherit; }
 .grade-pill.CC { background: var(--grade-cc-bg); color: var(--grade-cc); border-color: color-mix(in oklab, var(--grade-cc) 20%, transparent); }
 .grade-pill.DC { background: var(--grade-dc-bg); color: var(--grade-dc); border-color: color-mix(in oklab, var(--grade-dc) 20%, transparent); }
 .grade-pill.DD { background: var(--grade-dd-bg); color: var(--grade-dd); border-color: color-mix(in oklab, var(--grade-dd) 20%, transparent); }
-.grade-pill.FD { background: var(--grade-fd-bg); color: var(--grade-fd); border-color: color-mix(in oklab, var(--grade-fd) 20%, transparent); }
 .grade-pill.FF { background: var(--grade-ff-bg); color: var(--grade-ff); border-color: color-mix(in oklab, var(--grade-ff) 20%, transparent); }
 
 .row-del {
@@ -906,9 +908,33 @@ input, textarea, select { font: inherit; color: inherit; }
   padding: 1px 5px; border-radius: 4px;
   color: var(--ink-2);
 }
-.paste-status { font-size: 11.5px; color: var(--ink-3); }
+.paste-status { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
 .paste-status.ok { color: var(--grade-aa); }
 .paste-status.err { color: var(--grade-ff); }
+
+.error-page {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.error-page h1 {
+  font-family: var(--font-serif);
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.error-page p {
+  color: var(--ink-3);
+  font-size: 15px;
+  margin: 0 0 8px;
+}
 
 /* ── Visual guide steps ────────────────────────── */
 .guide-steps {

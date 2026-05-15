@@ -1,12 +1,13 @@
-import React from "react";
 import { Link } from "react-router-dom";
-const ErrorPage = () => {
+
+function ErrorPage() {
   return (
-    <div>
-      Ops, looks like there is an error!
-      <Link to={"/"}> Go Back</Link>
-    </div>
+    <main className="error-page">
+      <h1>Page not found</h1>
+      <p>The page you requested does not exist.</p>
+      <Link className="btn btn-primary" to="/">Go back home</Link>
+    </main>
   );
-};
+}
 
 export default ErrorPage;
