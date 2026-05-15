@@ -1,17 +1,15 @@
-# CalculateGPA
+# GPA Calculator
 
-A React app for calculating GPA from course grades and ECTS credits. The current design is intentionally lightweight so the UI can be rebuilt while keeping the calculator logic intact.
+Track courses by academic year and semester, enter letter grades and ECTS credits, and see semester and cumulative GPA. Data is stored in your browser (localStorage).
 
-## Core Functionality
+## What it does
 
-- Add courses with a course name, ECTS credit value, and letter grade.
-- Calculate GPA automatically as course data changes.
-- Include previous GPA and previous credits for cumulative GPA calculations.
-- Import course data from an HTML table.
-- Toggle between light and dark mode.
-- View a guided import help page.
+- Add years with Fall and Spring semesters (Summer optional)
+- Add courses manually or import from university transcript HTML
+- Semester GPA, cumulative GPA, and credit totals
+- Light and dark theme
 
-## Grade Scale
+## Grade scale
 
 | Grade | Points |
 | ----- | ------ |
@@ -24,38 +22,27 @@ A React app for calculating GPA from course grades and ECTS credits. The current
 | DD    | 1.0    |
 | FF    | 0.0    |
 
-## Getting Started
+Non-letter grades from transcripts (e.g. M, P, S) are shown without a GPA value.
 
-Install dependencies:
+## Run locally
 
 ```bash
 npm install
-```
-
-Start the development server:
-
-```bash
 npm start
 ```
 
-Open `http://localhost:3000` in your browser.
+Open http://localhost:3000
 
-## Available Scripts
-
-```bash
-npm start
-```
-
-Runs the app in development mode.
+## Build
 
 ```bash
 npm run build
 ```
 
-Creates a production build in the `build` folder.
+Output goes to `build/`.
 
-```bash
-npm test
-```
+## Project layout
 
-Runs the Create React App test runner. The project currently does not include custom tests.
+- `src/components/gpa/` — UI components
+- `src/utils/gradeData.js` — GPA math and transcript parsing
+
