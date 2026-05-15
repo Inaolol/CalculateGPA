@@ -3,6 +3,7 @@ import {
   GRADE_BY_LETTER,
   calcGPA,
   computeRunningTotals,
+  sumUniqueCompletedEcts,
   sumUniqueEcts,
   uid,
 } from "../utils/gradeData";
@@ -78,6 +79,7 @@ function GpaCalculator() {
   );
   const overall = useMemo(() => calcGPA(allCourses, { dedupeByCode: true }), [allCourses]);
   const totalEcts = useMemo(() => sumUniqueEcts(allCourses), [allCourses]);
+  const completedEcts = useMemo(() => sumUniqueCompletedEcts(allCourses), [allCourses]);
   const totalsMap = useMemo(() => computeRunningTotals(data), [data]);
 
   const semesterSeries = useMemo(() => {
@@ -165,7 +167,7 @@ function GpaCalculator() {
             data={data}
             cgpa={overall.gpa}
             totalEcts={totalEcts}
-            completedEcts={overall.ects}
+            completedEcts={completedEcts}
             semesterSeries={semesterSeries}
             distribution={distribution}
           />

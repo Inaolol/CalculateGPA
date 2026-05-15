@@ -35,6 +35,14 @@ const dedupeLatestByCode = (courses) => {
   return [...byCode.values(), ...noCode];
 };
 
+const completedEcts = (course) => {
+  const ects = course.ects || 0;
+  const g = GRADE_BY_LETTER[course.grade];
+  if (g) return g.points >= 1.0 ? ects : 0;
+  if ((course.grade || "").toUpperCase() === "S") return ects;
+  return 0;
+};
+
 export const calcGPA = (courses, { dedupeByCode = false } = {}) => {
   const list = dedupeByCode ? dedupeLatestByCode(courses) : courses;
   let totalPts = 0, totalEcts = 0, count = 0;
@@ -65,6 +73,18 @@ export const sumUniqueEcts = (courses) => {
   return sum;
 };
 
+export const sumUniqueCompletedEcts = (courses) => {
+  const byCode = new Map();
+  let sum = 0;
+  for (const c of courses) {
+    const e = completedEcts(c);
+    if (c.code) byCode.set(dedupKey(c.code), e);
+    else sum += e;
+  }
+  for (const e of byCode.values()) sum += e;
+  return sum;
+};
+
 export const computeRunningTotals = (data) => {
   const map = new Map();
   // Cumulative store keyed by course code (or fallback id). A later attempt
@@ -75,19 +95,25 @@ export const computeRunningTotals = (data) => {
     for (const s of y.semesters) {
       let semReceived = 0, semCompleted = 0, semPts = 0, semEctsForGPA = 0;
       for (const c of s.courses) {
-        const g = GRADE_BY_LETTER[c.grade];
-        if (!g) continue;
         const ects = c.ects || 0;
+        const g = GRADE_BY_LETTER[c.grade];
+        const isS = (c.grade || "").toUpperCase() === "S";
+
         semReceived += ects;
-        semPts += g.points * ects;
-        semEctsForGPA += ects;
-        if (g.points >= 1.0) semCompleted += ects;
+        if (g) {
+          semPts += g.points * ects;
+          semEctsForGPA += ects;
+          if (g.points >= 1.0) semCompleted += ects;
+        } else if (isS) {
+          semCompleted += ects;
+        }
 
         const key = c.code ? dedupKey(c.code) : `__${c.id}`;
         cumulative.set(key, {
           ects,
-          points: g.points * ects,
-          completed: g.points >= 1.0 ? ects : 0,
+          points: g ? g.points * ects : 0,
+          completed: g ? (g.points >= 1.0 ? ects : 0) : (isS ? ects : 0),
+          gpaEcts: g ? ects : 0,
         });
       }
 
@@ -96,7 +122,7 @@ export const computeRunningTotals = (data) => {
         totReceived += v.ects;
         totCompleted += v.completed;
         totPts += v.points;
-        totEctsForGPA += v.ects;
+        totEctsForGPA += v.gpaEcts;
       }
 
       map.set(s.id, {
@@ -208,8 +234,8 @@ export const parseTranscriptHTML = (html) => {
       const rawType = zsEl.textContent.trim().toUpperCase();
       const type = (rawType[0] === "U" || rawType[0] === "P" || rawType[0] === "F") ? "E" : "C";
 
-      // Skip non-GPA grades (M, S, P, EX…); store as empty grade
-      const grade = VALID.has(gradeText) ? gradeText : "";
+      // S = sufficient (counts toward completed ECTS, not GPA)
+      const grade = VALID.has(gradeText) ? gradeText : gradeText === "S" ? "S" : "";
 
       const sem = currentSem || { kind: "fall", title: "Imported", yearStart: 2024 };
       ensureSem(sem).courses.push({ id: uid(), code, name, ects: ectsVal, type, grade });
@@ -236,7 +262,8 @@ export const parseTranscriptHTML = (html) => {
         const m = CODE_NAME_RE.exec(c);
         if (m) { code = m[1]; if (!name) name = m[2].trim(); continue; }
       }
-      if (!grade && VALID.has(c.toUpperCase())) { grade = c.toUpperCase(); continue; }
+      const upper = c.toUpperCase();
+      if (!grade && (VALID.has(upper) || upper === "S")) { grade = upper; continue; }
       if (ects === null && ECTS_RE.test(c)) {
         const v = parseFloat(c.replace(",", "."));
         if (v > 0 && v <= 30) { ects = v; continue; }
