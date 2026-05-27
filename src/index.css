@@ -122,6 +122,181 @@ input, textarea, select { font: inherit; color: inherit; }
   padding: 0 40px 80px;
 }
 
+.app-landing {
+  max-width: none;
+  min-height: 100svh;
+  padding: 0;
+}
+
+.app.app-landing {
+  padding: 0;
+}
+
+/* ── Full-screen landing ───────────────────────── */
+.landing {
+  min-height: 100svh;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(180deg, rgba(2, 37, 55, 0.08), rgba(7, 27, 18, 0.2)),
+    var(--landing-bg) center / 104% 104% no-repeat;
+  color: #ffffff;
+}
+
+.landing::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 32%, rgba(255, 255, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+}
+
+.landing-shell {
+  position: relative;
+  z-index: 1;
+  width: min(920px, calc(100vw - 48px));
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  justify-items: center;
+  padding: 36px 0 56px;
+  text-align: center;
+}
+
+.landing-center {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 14px;
+  transform: translateY(26px);
+}
+
+.landing-logo {
+  width: clamp(82px, 10vw, 124px);
+  height: clamp(82px, 10vw, 124px);
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.26));
+}
+
+.landing-title {
+  font-family: var(--font-serif);
+  font-size: clamp(76px, 12vw, 162px);
+  line-height: 0.86;
+  font-weight: 400;
+  letter-spacing: 0;
+  margin: 0;
+  text-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+}
+
+.landing-sub {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(16px, 2vw, 24px);
+  line-height: 1.35;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.landing-sub span {
+  display: block;
+}
+
+.landing-options {
+  width: min(720px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(14, 30, 34, 0.16);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+}
+
+.landing-option {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  text-align: left;
+  text-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.landing-option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+}
+
+.landing-option.primary {
+  border-color: rgba(255, 255, 255, 0.46);
+  background: rgba(5, 5, 5, 0.24);
+  color: #ffffff;
+}
+
+.landing-option.primary:hover {
+  background: rgba(5, 5, 5, 0.36);
+}
+
+.landing-option-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.landing-option.primary .landing-option-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.landing-option-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.9;
+}
+
+.landing-option span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.landing-option strong {
+  font-size: 17px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.landing-option small {
+  font-size: 13px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.landing-option.primary small {
+  color: rgba(255, 255, 255, 0.74);
+}
+
 /* ── Top bar ───────────────────────────────────── */
 .topbar {
   display: flex;
@@ -998,7 +1173,56 @@ input, textarea, select { font: inherit; color: inherit; }
   .empty-card.subtle .empty-card-sub { display: none; }
 }
 @media (max-width: 800px) {
+  .landing {
+    min-height: 100svh;
+    background-size: cover;
+  }
+  .landing-shell {
+    width: min(100%, calc(100vw - 32px));
+    min-height: 100svh;
+    padding: 24px 0 28px;
+  }
+  .landing-center {
+    width: 100%;
+    gap: 10px;
+    transform: translateY(10px);
+  }
+  .landing-title {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font-size: clamp(46px, 14vw, 60px);
+    line-height: 0.9;
+    text-wrap: balance;
+  }
+  .landing-title span {
+    display: block;
+  }
+  .landing-sub {
+    width: min(100%, 320px);
+    max-width: 320px;
+    min-width: 0;
+    font-size: 14px;
+  }
+  .landing-options {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border-radius: 22px;
+    padding: 8px;
+  }
+  .landing-option {
+    min-height: 72px;
+    border-radius: 17px;
+    padding: 14px 16px;
+  }
+  .landing-option-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .landing-option strong { font-size: 15px; }
+  .landing-option small { font-size: 12px; }
   .app { padding: 0 20px 60px; }
+  .app.app-landing { padding: 0; }
   .semesters { grid-template-columns: 1fr; }
   .hero { grid-template-columns: 1fr; }
   .hero-cell { min-height: 100px; padding: 16px 18px; }

@@ -1,31 +1,37 @@
 import { Icons } from "./icons";
+import gpaLogo from "../../assets/gpa-logo.svg";
+import landingHero from "../../assets/landing-hero.png";
 
 function EmptyState({ onImport, onAddFirstYear }) {
   return (
-    <section className="empty">
-      <div className="empty-inner">
-        <div className="empty-eyebrow">Welcome</div>
-        <h1 className="empty-title">Build your GPA.</h1>
-        <p className="empty-sub">
-          Add your courses, semester by semester. Track every grade, plan what's next,
-          and see your cumulative GPA recalculate as you type.
-        </p>
+    <section className="landing" style={{ "--landing-bg": `url(${landingHero})` }}>
+      <div className="landing-shell">
+        <div className="landing-center">
+          <img className="landing-logo" src={gpaLogo} alt="" aria-hidden="true" />
+          <h1 className="landing-title">
+            <span>GPA</span> <span>Calculator</span>
+          </h1>
+          <p className="landing-sub">
+            <span>Calculate semesters, track ECTS,</span>
+            <span>and keep your GPA clear.</span>
+          </p>
+        </div>
 
-        <div className="empty-options">
-          <button className="empty-card primary" onClick={onImport}>
-            <div className="empty-card-icon">{Icons.doc}</div>
-            <div className="empty-card-title">Paste transcript HTML</div>
-            <div className="empty-card-sub">
-              Fastest: auto-fills every semester from your university's student portal.
-            </div>
-            <div className="empty-card-cta">Import -&gt;</div>
+        <div className="landing-options">
+          <button className="landing-option primary" onClick={onAddFirstYear}>
+            <span className="landing-option-icon">{Icons.edit}</span>
+            <span>
+              <strong>Start calculating</strong>
+              <small>Add courses manually</small>
+            </span>
           </button>
 
-          <button className="empty-card" onClick={onAddFirstYear}>
-            <div className="empty-card-icon">{Icons.edit}</div>
-            <div className="empty-card-title">Start from scratch</div>
-            <div className="empty-card-sub">Create your first year and add courses manually.</div>
-            <div className="empty-card-cta">New year -&gt;</div>
+          <button className="landing-option" onClick={onImport}>
+            <span className="landing-option-icon">{Icons.doc}</span>
+            <span>
+              <strong>Import transcript</strong>
+              <small>Paste portal HTML</small>
+            </span>
           </button>
         </div>
       </div>

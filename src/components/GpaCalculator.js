@@ -61,6 +61,7 @@ function GpaCalculator() {
   const [dark, setDark] = useState(loadThemePreference);
   const [data, setData] = useState(loadTranscriptData);
   const [importing, setImporting] = useState(false);
+  const [showLanding, setShowLanding] = useState(true);
 
   useEffect(() => {
     saveTranscriptData(data);
@@ -70,8 +71,6 @@ function GpaCalculator() {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     saveThemePreference(dark);
   }, [dark]);
-
-  const isEmpty = data.length === 0;
 
   const allCourses = useMemo(
     () => data.flatMap((year) => year.semesters.flatMap((semester) => semester.courses)),
@@ -126,28 +125,35 @@ function GpaCalculator() {
     );
   }, []);
 
-  const startFromScratch = useCallback(() => {
-    setData([createEmptyYear("Year 1", getDefaultAcademicYearStart())]);
-  }, []);
+  const startCalculating = useCallback(() => {
+    if (data.length === 0) {
+      setData([createEmptyYear("Year 1", getDefaultAcademicYearStart())]);
+    }
+
+    setShowLanding(false);
+  }, [data.length]);
 
   const resetAll = useCallback(() => {
     if (window.confirm("Clear all data and return to the welcome screen?")) {
       setData([]);
+      setShowLanding(true);
     }
   }, []);
 
   return (
-    <div className="app">
-      <TopBar
-        onImport={() => setImporting(true)}
-        onReset={resetAll}
-        theme={dark ? "dark" : "light"}
-        onToggleTheme={() => setDark((value) => !value)}
-        showActions={!isEmpty}
-      />
+    <div className={`app${showLanding ? " app-landing" : ""}`}>
+      {!showLanding && (
+        <TopBar
+          onImport={() => setImporting(true)}
+          onReset={resetAll}
+          theme={dark ? "dark" : "light"}
+          onToggleTheme={() => setDark((value) => !value)}
+          showActions
+        />
+      )}
 
-      {isEmpty ? (
-        <EmptyState onImport={() => setImporting(true)} onAddFirstYear={startFromScratch} />
+      {showLanding ? (
+        <EmptyState onImport={() => setImporting(true)} onAddFirstYear={startCalculating} />
       ) : (
         <>
           <Hero
@@ -182,7 +188,15 @@ function GpaCalculator() {
         </>
       )}
 
-      {importing && <ImportModal onClose={() => setImporting(false)} onImport={(years) => setData(years)} />}
+      {importing && (
+        <ImportModal
+          onClose={() => setImporting(false)}
+          onImport={(years) => {
+            setData(years);
+            setShowLanding(false);
+          }}
+        />
+      )}
     </div>
   );
 }
